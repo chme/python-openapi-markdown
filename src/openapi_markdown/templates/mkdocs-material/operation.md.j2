@@ -1,0 +1,15 @@
+{% if tag.name in operation.tags %}
+
+### {{ operation.summary }}
+
+``` http
+{{ method | upper }} {{ path }}
+```
+
+{{ operation.description }}
+
+{% include "request.md.j2" %}
+
+{% include "response.md.j2" %}
+
+{% endif %}

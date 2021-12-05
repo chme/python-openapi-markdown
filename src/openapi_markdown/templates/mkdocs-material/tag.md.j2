@@ -1,0 +1,10 @@
+## {{ tag.name | capitalize }}
+
+{{ tag.description }}
+
+{% for path, operations in spec.paths.items() %}
+{% for method, operation in operations.items() %}
+{% include "operation.md.j2" %}
+
+{% endfor %}{# spec.paths.operations #}
+{% endfor %}{# spec.paths #}

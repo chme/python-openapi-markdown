@@ -14,18 +14,24 @@ Why does this file exist, and why not put this in __main__?
 
   Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
-import sys
+import click
+
+from openapi_markdown.renderer import render
 
 
-def main(argv=sys.argv):
-    """
-    Args:
-        argv (list): List of arguments
+@click.command()
+@click.option(
+    "--input",
+    prompt="Path to OpenAPI specification file",
+    help="OpenAPI specification file.",
+)
+@click.option(
+    "--output", default="api.md", prompt="Path to output file", help="Output file."
+)
+def main(input, output):
+    # result = render(url="data/openapi.json")
+    result = render(url=input)
+    with open(output, "w") as f:
+        f.write(result)
 
-    Returns:
-        int: A return code
-
-    Does stuff.
-    """
-    print(argv)
     return 0

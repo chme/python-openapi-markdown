@@ -1,0 +1,42 @@
+???+ abstract "Request"
+
+{% for param_type, parameters in (operation.parameters|list + operations.parameters|list) | groupby("in") %}
+    __{{ param_type | capitalize }} parameters__:
+
+{% for parameter in parameters %}
+    __`{{ parameter.name }}`__: __{{ parameter.schema.type }}__ {% if parameter.required %}^(required)^{% endif %}
+    
+    :   {{ parameter.description }}
+
+{% endfor %}{# parameters #}
+{% else %}
+    _No parameters_
+{% endfor %}{# parameter types #}
+
+{% if operation.requestBody and operation.requestBody.content %}
+    __Request body__:
+
+    === "Schema"
+
+        Content-Types:
+
+{% for content_type in operation.requestBody.content.keys() %}
+        - `{{ content_type }}`
+{% endfor %}
+
+        ``` json
+        {{ (operation.requestBody.content.values() | list)[0].schema | jsonify(indent=2) | indent(8) }}
+        ```
+
+{% for content_type, request in operation.requestBody.content.items() %}
+{% if request.example %}
+    === "{{ content_type }}"
+
+        ``` json
+        {{ request.example | jsonify(indent=2) | indent(8) }}
+        ```
+
+{% endif %}
+
+{% endfor %}{# content types #}
+{% endif %}{# requestBody #}

@@ -1,3 +1,5 @@
+REQUIREMENTS_TXT=requirements_dev.txt
+
 .PHONY: test
 test: venv
 	$(VENV)/pytest

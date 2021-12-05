@@ -1,0 +1,30 @@
+{% if spec.components and spec.components.schemas %}
+## Model
+
+{% for model, schema in spec.components.schemas.items() %}
+### {{ schema.title }}
+
+=== "{{ schema.type | capitalize }}"
+
+    | Attribute | Type | Description |
+    | --------- | ---- | ----------- |
+    {% for prop_name, prop_schema in schema.properties.items() %}
+    | __{{ prop_name }}__ | `{{ prop_schema.type }}` | {{ prop_schema.description }} |
+    {% endfor %}
+
+=== "Schema"
+
+    ``` json
+    {{ schema | jsonify(indent=2) | indent(4) }}
+    ```
+
+{% if schema.example %}
+
+=== "Example"
+
+    ``` json
+    {{ schema.example | jsonify(indent=2) | indent(4) }}
+    ```
+{% endif %}
+{% endfor %}
+{% endif %}

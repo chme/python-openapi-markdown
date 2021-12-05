@@ -1,0 +1,16 @@
+# {{ spec.info.title }}
+
+^v{{ spec.info.version }}^
+
+{{ spec.info.description }}
+
+{% if spec.externalDocs %}
+[{{ spec.externalDocs.description }} ^:octicons-link-external-24:^]({{ spec.externalDocs.url }})
+{% endif %}
+
+{% for tag in spec.tags %}
+{% include "tag.md.j2" %}
+
+{% endfor %}
+
+{% include "models.md.j2" %}

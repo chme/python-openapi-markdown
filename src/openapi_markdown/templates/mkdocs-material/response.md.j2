@@ -1,0 +1,34 @@
+???+ quote "Response"
+
+{% for status_code, response in operation.responses.items() %}
+    `{{ status_code }}`
+    
+    :   {{ response.description }}
+
+{% if response.content %}
+        === "Schema"
+
+            Content-Types:
+
+{% for content_type in response.content.keys() %}
+            - `{{ content_type }}`
+{% endfor %}
+
+{% set schema = (response.content.values() | list | first).schema %}
+
+            ``` json
+            {{ schema | jsonify(indent=2) | indent(12) }}
+            ```
+
+{% for content_type, response_type in response.content.items() %}
+{% if response_type.example %}
+        === "{{ content_type }}"
+
+            ``` json
+            {{ response_type.example | jsonify | jsonify(indent=2) | indent(12) }}
+            ```
+
+{% endif %}{# response.content.example #}
+{% endfor %}{# content types #}
+{% endif %}{# response.content #}
+{% endfor %}{# operation.responses #}
